@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+    app:
+        user: 1000:1000
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: dev-stage
+            args:
+                - project_name=${APP_NAME}
+        image: ${APP_NAME}
+        volumes:
+            - /var/www/boilerplate-reactts:/var/www/${APP_NAME}
+        ports:
+            - 3000:3000

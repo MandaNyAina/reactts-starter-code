@@ -1,0 +1,66 @@
+/* Couleur */
+$color-default: #ecf0f1 !important;
+
+/* Police */
+$lg: 22px;
+$md: 16px;
+$regular: 14px;
+$sm: 12px;
+
+/* Font */
+@font-face {
+    font-family: 'ubuntu-bold';
+    src: url('/assets/font/Ubuntu-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ubuntu-regular';
+    src: url('/assets/font/Ubuntu-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ubuntu-medium';
+    src: url('/assets/font/Ubuntu-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ubuntu-light';
+    src: url('/assets/font/Ubuntu-Light.ttf') format('truetype');
+}
+
+$font-light: 'ubuntu-light';
+$font-regular: 'ubuntu-regular';
+$font-medium: 'ubuntu-medium';
+$font-bold: 'ubuntu-bold';
+
+* {
+    outline: none;
+}
+
+body {
+    background-color: $color-default;
+    margin: 0;
+    padding: 0;
+    font-size: $regular;
+    font-family: $font-regular;
+    width: 100%;
+}
+
+input,
+textarea,
+select {
+    font-family: $font-light;
+    font-size: $sm;
+}
+
+tr td {
+    padding: 0;
+}
+
+/* Bouton */
+
+button:disabled,
+button[disabled] {
+    cursor: not-allowed;
+    filter: opacity(50%) !important;
+}
