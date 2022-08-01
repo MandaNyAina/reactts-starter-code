@@ -16,18 +16,22 @@ functionality (clean code approach). Easy installation and deployment
 - Install my-project with npx
 
 ```bash
-  npx @mandanyaina/reactts-starter <my-project>
+  npm i @mandanyaina/reactts-starter
+  reactts-starter
+  ? Name of your project : < my-project-name>
+  Choose the installation mode :  (Use arrow keys)
+  ❯ Docker-compose 
+    Local npm 
   cd my-project/
 ```
 
 - Download from git
 
 ```bash
-  git pull https://github.com/MandaNyAina/reactts-starter
-  mv -r reactts-starter <my-project>
+  git pull https://github.com/MandaNyAina/reactts-starter-code <my-project>
   cd my-project/
 ```
-## Running with docker
+## Running with docker compose
 
 ```bash
   cd my-project/
