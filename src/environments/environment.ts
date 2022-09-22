@@ -1,5 +1,6 @@
-import * as config from './config.json';
-
-export const getEnvironmentFromConfigFile = () => {
-    return config;
+export const environment = {
+    host: 'http://localhost',
+    port: 8000,
+    token_secret_key: '',
+    api_lists: { }
 };

@@ -1,4 +1,4 @@
-export interface I_requestAPI {
+export interface IRequestAPI {
     method: string;
     body?: any;
     headers: HeadersInit;

@@ -1,81 +1,81 @@
-import { getEnvironmentFromConfigFile } from '../../environments/environment';
-import { I_requestAPI } from '../../models/I_requestAPI';
-import { I_HTTPService } from './I_http.service';
+import { environment } from '../../environments/environment';
+import { IRequestAPI } from '../../models/IRequestAPI';
+import { IHTTPService } from './IHttp.service';
 
-export class HTTPService implements I_HTTPService {
+interface IHeaderRequestOptions {
+    name: string;
+    value: string;
+}
+
+export class HTTPService implements IHTTPService {
     private baseUrl?: string;
+    private headers: IHeaderRequestOptions[] = [
+        { name: 'Content-Type', value: 'application/json' },
+    ];
 
     constructor() {
-        this.baseUrl = getEnvironmentFromConfigFile().base_url;
+        this.baseUrl = `${environment.host}:${environment.port}/`;
     }
 
-    private setHeader(typeInput: string): HeadersInit {
+    public addHeader(name: string, value: string): void {
+        const found = this.headers.some((el) => el.name === name);
+        if (!found) this.headers.push({ name: name, value: value });
+    }
+
+    private setHeader(): HeadersInit {
         const requestHeaders: HeadersInit = new Headers();
-        switch (typeInput) {
-            case 'json':
-                requestHeaders.set('Content-Type', 'application/json');
-                break;
-
-            case 'formData':
-                requestHeaders.set('Content-Type', 'multipart/form-data');
-                break;
-
-            default:
-                throw new Error('Invalid header type');
+        for (const header of this.headers) {
+            requestHeaders.set(header.name, header.value);
         }
         return requestHeaders;
     }
 
     private async fetchingAPI(
         endpoint: string,
-        requestOptions: I_requestAPI
+        requestOptions: IRequestAPI
     ): Promise<any> {
         return fetch(`${this.baseUrl + endpoint}`, requestOptions);
     }
 
+    private createRequestOption(method: string, data = null) {
+        const requestOptions = {
+            method,
+            body: JSON.stringify(data),
+            headers: this.setHeader(),
+        };
+        if (data === null) requestOptions.body = JSON.stringify(data);
+        return requestOptions;
+    }
+
     public async doGet(endpoint: string): Promise<any> {
-        const requestOptions = {
-            method: 'GET',
-            headers: this.setHeader('json'),
-        };
-        const res = await this.fetchingAPI(endpoint, requestOptions);
-        return await res.json();
+        const res = await this.fetchingAPI(
+            endpoint,
+            this.createRequestOption('GET')
+        );
+        return res.json();
     }
 
-    public async doPost(
-        endpoint: string,
-        data: any,
-        headers = 'json'
-    ): Promise<any> {
-        const requestOptions = {
-            method: 'POST',
-            body: data,
-            headers: this.setHeader(headers),
-        };
-        const res = await this.fetchingAPI(endpoint, requestOptions);
-        return await res.json();
+    public async doPost(endpoint: string, data: any): Promise<any> {
+        const res = await this.fetchingAPI(
+            endpoint,
+            this.createRequestOption('POST', data)
+        );
+        return res.json();
     }
 
-    public async doPut(
-        endpoint: string,
-        data: any,
-        headers = 'json'
-    ): Promise<any> {
-        const requestOptions = {
-            method: 'PUT',
-            body: data,
-            headers: this.setHeader(headers),
-        };
-        const res = await this.fetchingAPI(endpoint, requestOptions);
-        return await res.json();
+    public async doPut(endpoint: string, data: any): Promise<any> {
+        const res = await this.fetchingAPI(
+            endpoint,
+            this.createRequestOption('PUT', data)
+        );
+        return res.json();
     }
 
     public async doDelete(endpoint: string): Promise<any> {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: this.setHeader('json'),
-        };
-        const res = await this.fetchingAPI(endpoint, requestOptions);
-        return await res.json();
+        const res = await this.fetchingAPI(
+            endpoint,
+            this.createRequestOption('DELETE')
+        );
+        return res.json();
     }
 }

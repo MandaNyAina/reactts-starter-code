@@ -1,7 +1,7 @@
 import { toast, ToastOptions, ToastPosition } from 'react-toastify';
-import { I_ToastService } from './I.toast.service';
+import { IToastService } from './IToast.service';
 
-export class ToastService implements I_ToastService {
+export class ToastService implements IToastService {
     private position: ToastPosition = 'top-right';
     private autoClose = 5000;
 
